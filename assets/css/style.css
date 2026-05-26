@@ -1,0 +1,183 @@
+
+
+
+/*  HÉCTOR ORELLANA */
+:root {
+  --bg-color: #020617;          /* Slate 950 */
+  --border-color: #1e293b;      /* Slate 800 */
+  --primary-color: #6366f1;     /* Indigo 500 */
+  --secondary-color: #22d3ee;   /* Cyan 400 */
+  --text-muted: #64748b;        /* Slate 500 */
+  
+  /* Tiempos de animación */
+  --speed-outer: 0.8s;
+  --speed-inner: 2s;
+}
+
+/* HÉCTOR ORELLANA */
+.futuristic-spinner-container {
+  position: fixed;           /* Lo fija a la pantalla sin importar el scroll */
+  top: 0;
+  left: 0;
+  width: 100vw;              /* 100% del ancho de la ventana */
+  height: 100vh;             /* 100% del alto de la ventana */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  overflow: hidden;         
+  z-index: 9999;             
+}
+
+/* Efectos Glow de Fondo */
+.glow-bg {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.glow-1 {
+  width: 160px;
+  height: 160px;
+  background-color: var(--primary-color);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.glow-2 {
+  width: 96px;
+  height: 96px;
+  background-color: var(--secondary-color);
+  animation: pulse-glow 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* ==========================================================================
+   ESTRUCTURA DEL SPINNER
+   ========================================================================== */
+.spinner-core-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+/* Anillo Exterior (Aceleración Orgánica) */
+.ring-outer {
+  border: 2px solid transparent;
+  border-top-color: var(--primary-color);
+  border-right-color: var(--secondary-color);
+  animation: spin-clockwise var(--speed-outer) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Anillo Intermedio (Giro Inverso) */
+.ring-inner {
+  inset: 8px; /* Crea el espaciado interno */
+  border: 1px solid transparent;
+  border-bottom-color: rgba(34, 211, 238, 0.4);
+  border-left-color: rgba(99, 102, 241, 0.4);
+  animation: spin-counter-clockwise var(--speed-inner) linear infinite;
+}
+
+/* Núcleo Central y Efecto Ping */
+.core-pulse {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+  animation: ping-effect 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.core-center {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bg-color);
+  border: 1px solid rgba(99, 102, 241, 0.6);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   TEXTO Y SECCIÓN INFERIOR (Actualizado)
+   ========================================================================== */
+.loading-text-wrapper {
+  margin-top: 32px; /* Más espacio con respecto al spinner */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;        /* Más aire entre el título y el subtítulo */
+  z-index: 10;
+}
+
+.text-main {
+  /* --- OPCIÓN A: Estilo Tecnológico Avanzado (Limpio y Robusto) --- */
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;             /* Escalado de tamaño considerable */
+  font-weight: 700;
+  letter-spacing: 0.25em;      /* Espaciado elegante */
+  
+  /* --- OPCIÓN B: Si prefieres un look ultra-minimalista tipo Apple/Vercel, 
+     descomenta las 3 líneas de abajo y comenta las 3 de arriba --- */
+  /* font-family: 'Inter', sans-serif; */
+  /* font-size: 20px; */
+  /* font-weight: 300; */
+
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.2); /* Sutil brillo para que resalte */
+  animation: text-pulse 2.5s ease-in-out infinite;
+}
+
+.text-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.4em;       /* Espaciado extra para look de consola de comandos */
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   ANIMACIONES (Keyframes nativos optimizados para GPU)
+   ========================================================================== */
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counter-clockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes ping-effect {
+  75%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes text-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.08; }
+  50% { transform: scale(1.2); opacity: 0.15; }
+}
